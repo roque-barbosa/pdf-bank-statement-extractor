@@ -3,13 +3,14 @@ import streamlit as st
 
 
 from extractors.bb_extractor_streamlit import BBExtractorStreamlit
+from extractors.bradesco_extractor_streamlit import BradescoExtractorStreamlit
 from extractors.itau_extractor_streamlit import ItauExtractorStreamlit
 
 st.title('extratos -> csv')
 option = st.selectbox(
   'Selecione o Banco:',
-  ('Banco do Brasil', 'Itau',))
-extratos = st.file_uploader('extratos Banco do Brasil', accept_multiple_files=True)
+  ('Banco do Brasil', 'Itau', 'Bradesco'))
+extratos = st.file_uploader('Extratos', accept_multiple_files=True)
 
 if extratos is not None and len(extratos) > 0:
 
@@ -22,6 +23,12 @@ if extratos is not None and len(extratos) > 0:
 
   elif option == 'Itau':
     ItauExtractorStreamlit(
+      outpath=os.path.join(".", "output"),
+      files=extratos
+    ).generateCSV()
+  
+  elif option == 'Bradesco':
+    BradescoExtractorStreamlit(
       outpath=os.path.join(".", "output"),
       files=extratos
     ).generateCSV()
